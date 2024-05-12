@@ -29,3 +29,14 @@ def mostrar_rutas(grafo, origen):
         print("No hay ruta disponible.")
     except KeyError:
         print("Estación no encontrada.")
+
+    def graficar_grafo(grafo, origen, caminos):
+    """ Función para graficar el grafo con un camino específico resaltado """
+    pos = nx.spring_layout(grafo)
+    nx.draw(grafo, pos, with_labels=True, node_size=700, node_color='lightblue')
+    # Asegura que caminos contenga listas de nodos
+    if all(isinstance(path, list) for path in caminos.values()):
+        ruta_especifica = [edge for path in caminos.values() for edge in zip(path[:-1], path[1:])]
+        nx.draw_networkx_edges(grafo, pos, edgelist=ruta_especifica, edge_color='red', width=2)
+    plt.show()
+
