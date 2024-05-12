@@ -40,3 +40,20 @@ def mostrar_rutas(grafo, origen):
         nx.draw_networkx_edges(grafo, pos, edgelist=ruta_especifica, edge_color='red', width=2)
     plt.show()
 
+# Programa principal
+def main():
+    grafo = leer_rutas("rutas.txt")
+    while True:
+        print(f"Estaciones disponibles: {list(grafo.nodes())}")
+        estacion_origen = input("Ingrese el nombre de su estación de salida: ").strip()
+        try:
+            caminos, _ = nx.single_source_dijkstra(grafo, estacion_origen)
+            mostrar_rutas(grafo, estacion_origen)
+            graficar_grafo(grafo, estacion_origen, caminos)
+        except nx.NodeNotFound:
+            print("Error: La estación ingresada no se encuentra en el grafo. Por favor verifique y pruebe de nuevo.")
+        if input("¿Desea seguir consultando rutas? (si/no): ").lower() != 'si':
+            break
+
+if _name_ == "_main_":
+    main()
